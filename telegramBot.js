@@ -26,17 +26,11 @@ bot.onText(/\/help$/, (msg, match) => {
 });
 
 
-bot.onText(/\/all$/, (msg, match) => {
+bot.onText(/\/free$/, (msg, match) => {
   let reply = ""
   parkdeckFetcher.decks.forEach(x => reply += `${x.name}: ${x.free} /details${x.id}\n`)
   bot.sendMessage(msg.from.id, reply);
 }); 
-
-bot.onText(/\/location(.+)/, (msg, match) => {
-  let id = match[1];
-  let deck = parkdeckFetcher.decks[parkdeckFetcher.getDeckIndex(id)]
-  bot.sendLocation(msg.from.id, deck.location.lat, deck.location.long);
-});
 
 bot.onText(/\/details$/, (msg, match) => {
   let reply = "Welches Parkhaus interessiert dich?"
