@@ -34,11 +34,11 @@
     <script>
     
 $.get('/json', (decks) => {
-
+  console.log("get", decks)
+  
   decks.forEach(deck => {
     $(".list-group").html($(".list-group").html() + '<li class="list-group-item">' + deck.name + ' <span class="badge">' + deck.free + '</span>')
   })
-  console.log("get", decks)
 })
 
     </script>
