@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Ulm Parking</title>
+    <title>Parkplätze Ulm</title>
     <meta name="description" content="Where are available parking lots in Ulm?">
     <link id="favicon" rel="icon" href="https://cdn.hyperdev.com/us-east-1%3A9893de0d-f62f-4dbd-9b97-4d8c21f9cb2c%2Ffavicon.png" type="image/x-icon">
     <meta charset="utf-8">
@@ -12,7 +12,7 @@
   </head>
   <body>
     <header>
-      <h1>Available parking in Ulm</h1>
+      <h1>Freie Parkplätze in Ulm</h1>
     </header>
 
     <main class="container">
@@ -22,7 +22,8 @@
     </main>
 
     <footer>
-      <a href="/json">JSON API</a>
+      <a href="http://telegram.me/ParkenInUlmBot">💬 Telegram Bot</a>
+      <a href="/json">{ } JSON API</a>
     </footer>
 
     <!-- Your web-app is https, so your scripts need to be too -->
@@ -33,11 +34,11 @@
     <script>
     
 $.get('/json', (decks) => {
-
+  console.log("get", decks)
+  
   decks.forEach(deck => {
     $(".list-group").html($(".list-group").html() + '<li class="list-group-item">' + deck.name + ' <span class="badge">' + deck.free + '</span>')
   })
-  console.log("get", decks)
 })
 
     </script>
