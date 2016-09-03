@@ -10,7 +10,7 @@
 		"start": "node server.js"
 	},
 	"dependencies": {
-   "hyperweb": "0.0.9",
+    "hyperweb": "0.0.13",
 		"express": "^5.0.0-alpha.2",
 		"request-promise": "^4.1.1",
 		"cheerio": "^0.20.0",
