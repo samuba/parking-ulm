@@ -3,8 +3,8 @@ let express = require('express');
 let bodyParser = require('body-parser');
 let bot = require("./telegramBot")
 let pdFetcher = require("./parkdeckFetcher")
-let datastore = require("./datastore").sync;
 let stats = require("./stats"); 
+let sync = require("synchronize")
 
 pdFetcher.fetch()
 setInterval(() => pdFetcher.fetch(), 30 * 1000)
@@ -13,9 +13,6 @@ let app = express();
 app.use(express.static('public'));
 app.use(bodyParser.json());
 
-datastore.initializeApp(app);
-stats.setDatastore(datastore)
- 
 app.get("/", (req, resp) => {
   stats.setUrl("https://" + req.headers.host)
   resp.sendFile(__dirname + '/views/index.html');
@@ -43,11 +40,11 @@ app.post("/" + process.env.TELEGRAM_BOT_TOKEN, (req, resp) => {
     // TODO: replace this hack (promises for parkdeckFetcher?)
     // we don't have current data of decks available (eg. container just started)
     // => wait some time and hope data was fetched till then
-    setTimeout(() => bot.processUpdate(req.body), 2 * 1000)
+    setTimeout(() => sync.fiber(() => bot.processUpdate(req.body)), 2 * 1000)
   } else {
      bot.processUpdate(req.body)  
   }
-  stats.updateUser(req.body.message)
+  sync.fiber(() => stats.updateUser(req.body.message))
   resp.send(200)
 })
 

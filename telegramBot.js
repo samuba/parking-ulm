@@ -1,7 +1,8 @@
 'use strict';
 let TelegramBot = require('node-telegram-bot-api');
 let pdFetcher = require("./parkdeckFetcher")
-let stats = require("./stats"); 
+let stats = require("./stats") 
+let db = require("./database")
 
 let bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, {webHook: true});
 bot.setWebHook(process.env.TELEGRAM_WEBHOOK_URL)
@@ -29,6 +30,7 @@ Diese Kommandos kannst du benutzen um mit mir zu sprechen:
 });
 
 bot.onText(/\/free$/, (msg, match) => {
+  db.setUser(msg.from)
   let reply = "So viele Parkplätze sind noch in den jeweiligen Parkhäusern frei:\n\n"
   pdFetcher.decks.forEach(x => reply += `${x.name}: ${x.free} /details${x.id}\n`)
   bot.sendMessage(msg.from.id, reply);
@@ -36,6 +38,7 @@ bot.onText(/\/free$/, (msg, match) => {
 }); 
 
 bot.onText(/\/details$/, (msg, match) => {
+  db.setUser(msg.from)
   let reply = "Welches Parkhaus interessiert dich?"
   let keyboard = []
   let decks = pdFetcher.decks
@@ -54,6 +57,7 @@ bot.onText(/\/details$/, (msg, match) => {
 });
 
 bot.onText(/\/details(.+)/, (msg, match) => {
+  db.setUser(msg.from)
   let id = match[1];
   let deck = pdFetcher.decks[pdFetcher.getDeckIndex(id)]
   let reply = `
@@ -67,6 +71,15 @@ Kapazität: ${deck.total}
       bot.sendLocation(msg.from.id, deck.location.lat, deck.location.long);
   }, 100)
   stats.incrementStat("/details" + id)
+});
+
+bot.onText(/\/users(.+)/, (msg, match) => {
+  let limit = parseInt(match[1]);
+  console.log("limit", limit)
+  db.getUsers(limit).then(
+    data => bot.sendMessage(msg.from.id, JSON.stringify(data.val(), null, 2).replace(/"|,|{|}/g, '')),
+    error => bot.sendMessage(msg.from.id, error)
+  )
 });
 
 bot.onText(/\/admin$/, (msg, match) => {

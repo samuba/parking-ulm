@@ -1,9 +1,10 @@
 'use strict';
+//let sync = require("synchronize")
 
-let datastore = null
+//let datastore = null
 
 function getUsers() {
-  let users = []
+  /*let users = []
   for(var i=1; i<99999; i++) {
     let user = datastore.get("user." + i)
     if (!user) break;
@@ -12,15 +13,15 @@ function getUsers() {
   return {
     userCount: datastore.get("userCount"),
     users: users
-  }
+  }*/
 }
 
 function getUser(id) {
-  return datastore.get("user." + id)
+  //return datastore.get("user." + id)
 }
 
 function updateUser(msg) {
-    let userId = 0
+    /*let userId = 0
     let totalCalls = 0
     if (!datastore.get("userMap." + msg.from.id)) {
       userId = datastore.get("userCount") + 1
@@ -37,11 +38,11 @@ function updateUser(msg) {
       username: msg.from.username,
       last_call: new Date(msg.date * 1000).toISOString(),
       total_calls: totalCalls + 1
-    })
+    })*/
 }
 
 function getStats() {
-  return {
+  /*return {
     userCount: datastore.get("userCount"),
     commandExecutions: {
       "/start": datastore.get("/start"),
@@ -57,11 +58,11 @@ function getStats() {
       "/detailsKornhaus": datastore.get("/detailsKornhaus"),
       "/detailsTheater": datastore.get("/detailsTheater") 
     }
-  }
+  }*/
 }
 
 function incrementStat(stat) {
-  datastore.set(stat, datastore.get(stat) + 1, 10)
+  //datastore.set(stat, datastore.get(stat) + 1, 10)
 }
 
 module.exports = {
@@ -70,7 +71,6 @@ module.exports = {
   updateUser: msg => updateUser(msg),
   getStats: () => getStats(),
   incrementStat: (stat) => incrementStat(stat),
-  getUrl: () => datastore.get("url"),
-  setUrl: (url) => datastore.set("url", url),
-  setDatastore: ds => datastore = ds,
+  getUrl: () => null,//datastore.get("url"),
+  setUrl: (url) => null,//datastore.set("url", url),
 }

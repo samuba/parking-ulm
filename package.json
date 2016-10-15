@@ -10,15 +10,15 @@
 		"start": "node server.js"
 	},
 	"dependencies": {
-    "hyperweb": "0.0.13",
+		"hyperweb": "0.0.13",
 		"express": "^5.0.0-alpha.2",
 		"request-promise": "^4.1.1",
 		"cheerio": "^0.20.0",
 		"node-telegram-bot-api": "^0.23.3",
-    "nunjucks": "^1.3.4",
-    "aws-sdk": "^2.2.12",
-    "synchronize": "^0.9.14",
-		"body-parser": "^1.15.2"
+		"aws-sdk": "^2.2.12",
+		"synchronize": "^0.9.14",
+		"body-parser": "^1.15.2",
+		"firebase": "^3.4.1"
 	},
 	"engines": {
 		"node": "4.4.3"
